@@ -1,506 +1,934 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JR Fitness 24X7 | Premium Gym in Vrindavan Colony</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JR Fitness 24X7 | Premium Gym in Vrindavan Colony</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { inter: ['Inter', 'sans-serif'] },
-                    colors: {
-                        brand: {
-                            yellow: '#facc15', // True Yellow
-                            dark: '#050b14',
-                            card: '#0f172a',
-                            input: '#1e293b'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background: radial-gradient(circle at top center, #111827 0%, #030712 100%);
-            background-color: #030712;
-            min-height: 100vh;
-            overflow-x: hidden; /* Prevents horizontal scrolling bugs */
-            
-            /* Disabled Selection */
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(160deg, #020818 0%, #050d2d 50%, #020c22 100%);
+      background-color: #020818;
+      color: #cbd5e1;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body::-webkit-scrollbar { display: none; }
 
-        /* Hide Scrollbar */
-        body::-webkit-scrollbar { display: none; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    /* ── INTRO ── */
+    #intro {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #020818 0%, #050d2d 40%, #0a1a4a 70%, #020818 100%);
+      transition: opacity 0.7s ease;
+    }
+    #intro.fade-out { opacity: 0; pointer-events: none; }
+    .intro-glow {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(59,130,246,.14) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .intro-fade-top {
+      position: absolute; top: 0; left: 0; right: 0; height: 160px;
+      background: linear-gradient(to bottom, #020818, transparent);
+      pointer-events: none;
+    }
+    .intro-fade-bottom {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 160px;
+      background: linear-gradient(to top, #020818, transparent);
+      pointer-events: none;
+    }
+    .intro-divider {
+      position: absolute; top: 0; bottom: 0; width: 1px;
+      background: rgba(59,130,246,.07); pointer-events: none;
+    }
+    #intro-cols {
+      display: flex; flex-direction: row; align-items: flex-end;
+      justify-content: center; gap: clamp(52px, 10vw, 140px);
+      position: relative; z-index: 2;
+    }
+    .intro-col {
+      display: flex; flex-direction: column; align-items: center;
+      gap: clamp(10px, 2vw, 22px);
+      min-width: clamp(64px, 12vw, 130px);
+    }
+    .slot-letter {
+      display: block; text-align: center;
+      font-family: 'Inter', sans-serif; font-weight: 900;
+      line-height: 1; letter-spacing: .04em;
+      font-size: clamp(1rem, 3vw, 3rem);
+      color: rgba(147, 197, 253, 0.08);
+      transition: none;
+    }
+    .slot-letter.settled {
+      font-size: clamp(4rem, 12vw, 9rem);
+      color: #ffffff;
+      text-shadow: 0 0 60px rgba(59,130,246,.9), 0 0 140px rgba(59,130,246,.5);
+      transition: font-size .45s cubic-bezier(.34,1.56,.64,1), color .4s, text-shadow .4s;
+    }
 
-        .text-stroke {
-            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.05);
-            color: transparent;
-        }
-    </style>
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 40;
+      border-bottom: 1px solid rgba(59,130,246,.1);
+      backdrop-filter: blur(20px);
+      background: rgba(2,8,24,.8);
+      padding: 1rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px; cursor: pointer;
+      text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 40px; height: 40px; background: #facc15; color: #000;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; transform: rotate(3deg);
+      box-shadow: 0 0 15px rgba(250,204,21,.4); flex-shrink: 0;
+    }
+    .nav-logo-icon svg { transform: rotate(-3deg); }
+    .nav-logo-text {
+      font-weight: 900; color: white;
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      letter-spacing: -.02em; white-space: nowrap;
+    }
+    .nav-links {
+      display: none; list-style: none; gap: 40px; align-items: center;
+    }
+    .nav-links button {
+      background: none; border: none; cursor: pointer;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .12em; color: #fff;
+      transition: color .2s; font-family: inherit;
+    }
+    .nav-links button:hover, .nav-links button.active { color: #facc15; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .btn-join-nav {
+      display: none; font-size: 13px; font-weight: 700; color: #000;
+      padding: 10px 24px; border-radius: 9999px; border: none; cursor: pointer;
+      background: #facc15; box-shadow: 0 0 15px rgba(250,204,21,.3);
+      white-space: nowrap; font-family: inherit; transition: background .2s;
+    }
+    .btn-join-nav:hover { background: #eab308; }
+    .btn-mobile-menu {
+      background: none; border: none; color: white; cursor: pointer;
+      padding: 4px; display: flex;
+    }
+    @media (min-width: 768px) {
+      .nav-links { display: flex; }
+      .btn-join-nav { display: inline-flex; align-items: center; }
+      .btn-mobile-menu { display: none !important; }
+    }
+
+    /* ── MOBILE MENU ── */
+    #mobile-menu {
+      display: none; position: fixed; inset: 0;
+      background: rgba(2,8,24,.98); backdrop-filter: blur(24px);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 32px; z-index: 100;
+    }
+    #mobile-menu.open { display: flex; }
+    .mobile-close {
+      position: absolute; top: 24px; right: 24px;
+      background: rgba(255,255,255,.08); border: none; color: white;
+      width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .mobile-nav-btn {
+      background: none; border: none; font-size: 22px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .1em; color: white;
+      cursor: pointer; font-family: inherit; transition: color .2s;
+    }
+    .mobile-nav-btn:hover { color: #facc15; }
+    .btn-join-mobile {
+      background: #facc15; color: #000; font-weight: 700; font-size: 18px;
+      padding: 14px 40px; border-radius: 9999px; border: none; cursor: pointer;
+      margin-top: 16px; font-family: inherit;
+    }
+
+    /* ── PAGES ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; min-height: 90vh;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(59,130,246,.16) 0%, transparent 70%);
+    }
+    .hero-inner {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 28px;
+      padding: 6rem 1.5rem 5rem; text-align: center; max-width: 820px; width: 100%;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; border-radius: 9999px;
+      border: 1px solid rgba(59,130,246,.3); background: rgba(59,130,246,.1);
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: #93c5fd;
+    }
+    .badge-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: #3b82f6; flex-shrink: 0;
+    }
+    .hero-title {
+      font-size: clamp(2rem, 6vw, 4.5rem); font-weight: 900;
+      color: white; line-height: 1.1;
+    }
+    .hero-title .gold {
+      background: linear-gradient(90deg, #facc15, #f59e0b);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-size: clamp(.875rem, 2vw, 1.1rem); color: #cbd5e1;
+      line-height: 1.75; max-width: 560px;
+    }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+    .btn-primary {
+      padding: 13px 36px; border-radius: 9999px; font-weight: 700; font-size: 14px;
+      color: #000; background: linear-gradient(135deg, #facc15, #f59e0b);
+      border: none; cursor: pointer; box-shadow: 0 0 24px rgba(250,204,21,.4);
+      transition: transform .2s; font-family: inherit;
+    }
+    .btn-primary:hover { transform: scale(1.05); }
+    .btn-secondary {
+      padding: 13px 36px; border-radius: 9999px; font-weight: 700; font-size: 14px;
+      color: #fff; background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.15); cursor: pointer;
+      transition: border-color .2s; font-family: inherit;
+    }
+    .btn-secondary:hover { border-color: #facc15; }
+    .hero-icons { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(24px,6vw,80px); margin-top: 8px; }
+    .hero-icon-item { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .hero-icon-box {
+      width: 56px; height: 56px; border-radius: 12px;
+      background: rgba(59,130,246,.1); border: 1px solid rgba(59,130,246,.25);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 12px rgba(59,130,246,.15);
+    }
+    .hero-icon-box svg { color: #3b82f6; }
+    .hero-icon-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .12em; color: white;
+    }
+
+    /* STATS */
+    .stats-bar {
+      border-top: 1px solid rgba(59,130,246,.1);
+      border-bottom: 1px solid rgba(59,130,246,.1);
+      background: rgba(59,130,246,.04); padding: 52px 24px;
+    }
+    .stats-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+      gap: 32px; text-align: center;
+    }
+    .stat-num { font-size: clamp(1.75rem,4vw,2.75rem); font-weight: 900; color: #facc15; margin-bottom: 8px; }
+    .stat-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #64748b; }
+
+    /* ── TOUR ── */
+    .tour-section { max-width: 1200px; margin: 0 auto; padding: 80px 24px; }
+    .tour-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 32px; flex-wrap: wrap; gap: 16px;
+    }
+    .tour-title { font-size: clamp(1.75rem,4vw,3rem); font-weight: 900; color: white; text-transform: uppercase; margin-bottom: 8px; }
+    .tour-title span { color: #facc15; }
+    .tour-sub { color: #64748b; font-size: 14px; }
+    .btn-tour {
+      background: none; border: none; border-bottom: 2px solid #facc15;
+      font-size: 13px; font-weight: 700; color: #fff; cursor: pointer;
+      padding-bottom: 4px; display: flex; align-items: center; gap: 6px; font-family: inherit;
+    }
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 16px;
+    }
+    .gallery-main { grid-column: 1/3; grid-row: 1/3; }
+    .gallery-img-wrap {
+      border-radius: 16px; overflow: hidden; background: #0d1a3a;
+      border: 1px solid rgba(59,130,246,.12); height: 100%; min-height: 180px;
+    }
+    .gallery-main .gallery-img-wrap { min-height: 300px; }
+    .gallery-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover; opacity: .85;
+      display: block; transition: transform .7s;
+    }
+    .gallery-img-wrap:hover img { transform: scale(1.05); }
+
+    /* ── SECTION SHARED ── */
+    .section-page { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
+    .section-title { font-size: clamp(1.5rem,4vw,3rem); font-weight: 900; color: white; text-transform: uppercase; margin-bottom: 18px; }
+    .section-title span { color: #facc15; }
+    .card {
+      background: rgba(15,30,70,.7); border: 1px solid rgba(59,130,246,.15);
+      border-radius: 16px; padding: 36px 40px;
+    }
+    @media (max-width: 600px) { .card { padding: 24px 20px; } }
+    .card-title { font-size: 20px; font-weight: 900; color: #facc15; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 28px; }
+
+    /* ── ABOUT ── */
+    .about-hero { text-align: center; margin-bottom: 56px; position: relative; overflow: hidden; }
+    .about-bg-text {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      pointer-events: none; overflow: hidden;
+    }
+    .about-bg-text span {
+      font-size: clamp(4rem,15vw,10rem); font-weight: 900; color: transparent;
+      -webkit-text-stroke: 1px rgba(59,130,246,.07); white-space: nowrap; text-transform: uppercase;
+    }
+    .people-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 16px; margin-bottom: 32px; }
+    .person-card { background: rgba(15,30,70,.7); padding: 24px; border-radius: 12px; border: 1px solid rgba(59,130,246,.15); }
+    .person-name { color: #facc15; font-weight: 700; font-size: 16px; margin-bottom: 2px; }
+    .person-role { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #64748b; margin-bottom: 10px; }
+    .person-desc { font-size: 13px; color: #cbd5e1; line-height: 1.65; }
+    .rep-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 28px; text-align: center; }
+    .rep-icon {
+      width: 48px; height: 48px; background: rgba(59,130,246,.1);
+      border: 1px solid rgba(59,130,246,.2); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 14px;
+    }
+    .rep-icon svg { color: #3b82f6; }
+    .rep-title { color: white; font-weight: 700; margin-bottom: 6px; font-size: 14px; }
+    .rep-desc { font-size: 12px; color: #cbd5e1; line-height: 1.6; }
+
+    /* ── FOUNDER ── */
+    .founder-inner { display: flex; flex-direction: column; align-items: center; gap: 40px; text-align: center; max-width: 900px; margin: 0 auto; }
+    .founder-avatar { width: 200px; height: 200px; border-radius: 50%; border: 4px solid #facc15; overflow: hidden; box-shadow: 0 0 30px rgba(250,204,21,.3); }
+    .founder-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .founder-name { font-size: clamp(2rem,6vw,4rem); font-weight: 900; color: white; margin-bottom: 8px; }
+    .founder-role { font-size: 20px; color: #facc15; font-weight: 700; margin-bottom: 24px; }
+    .founder-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 32px; }
+    .founder-tag {
+      background: rgba(59,130,246,.1); border: 1px solid rgba(59,130,246,.15);
+      padding: 8px 16px; border-radius: 9999px; font-size: 13px; font-weight: 600;
+      color: white; display: flex; align-items: center; gap: 8px;
+    }
+    .founder-tag svg { color: #facc15; }
+    .founder-bio { background: rgba(15,30,70,.7); padding: 32px; border-radius: 16px; border: 1px solid rgba(59,130,246,.15); text-align: left; max-width: 700px; margin: 0 auto; width: 100%; }
+    .founder-bio-title { font-size: 20px; font-weight: 900; color: #facc15; margin-bottom: 16px; }
+    .founder-bio-text { color: #cbd5e1; line-height: 1.8; font-size: 14px; margin-bottom: 20px; }
+    .founder-email {
+      background: rgba(59,130,246,.08); padding: 12px 16px; border-radius: 8px;
+      border: 1px solid rgba(59,130,246,.15); display: flex; align-items: center; gap: 12px;
+    }
+    .founder-email svg { color: #facc15; flex-shrink: 0; }
+    .founder-email span { color: #e2e8f0; font-weight: 600; font-size: 13px; word-break: break-all; }
+
+    /* ── CLASSES ── */
+    .classes-title { font-size: clamp(1.75rem,4vw,2.5rem); font-weight: 900; color: white; text-align: center; margin-bottom: 40px; text-transform: uppercase; }
+    .classes-title span { color: #facc15; }
+    .classes-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 20px; }
+    .class-card {
+      background: rgba(15,30,70,.7); border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(59,130,246,.15); cursor: pointer; transition: border-color .3s;
+    }
+    .class-card:hover { border-color: #facc15; }
+    .class-img-wrap { position: relative; height: 192px; background: #0d1a3a; overflow: hidden; }
+    .class-img-wrap img { width: 100%; height: 100%; object-fit: cover; opacity: .85; display: block; transition: transform .5s; }
+    .class-card:hover .class-img-wrap img { transform: scale(1.08); }
+    .class-icon {
+      position: absolute; top: 14px; left: 14px; width: 38px; height: 38px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    }
+    .class-icon svg { color: white; }
+    .class-stars { position: absolute; top: 14px; right: 14px; background: rgba(0,0,0,.7); padding: 3px 8px; border-radius: 4px; display: flex; gap: 2px; }
+    .class-stars svg { color: #facc15; fill: #facc15; }
+    .class-body { padding: 22px; }
+    .class-name { font-size: 17px; font-weight: 700; color: white; margin-bottom: 8px; }
+    .class-desc { color: #64748b; font-size: 13px; margin-bottom: 14px; line-height: 1.5; }
+    .class-dur { font-size: 11px; color: #facc15; font-weight: 700; text-transform: uppercase; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(59,130,246,.15);
+      background: rgba(2,8,24,.9); padding: 48px 24px 28px;
+    }
+    .footer-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 40px; }
+    .footer-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+    .footer-logo-icon {
+      width: 30px; height: 30px; background: #facc15; color: #000;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 6px; transform: rotate(3deg);
+    }
+    .footer-logo-icon svg { transform: rotate(-3deg); }
+    .footer-logo-text { font-weight: 900; color: white; font-size: 16px; }
+    .footer-desc { color: #64748b; font-size: 13px; line-height: 1.7; }
+    .footer-col-title { font-weight: 700; color: white; margin-bottom: 14px; text-transform: uppercase; letter-spacing: .1em; font-size: 11px; }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-link { background: none; border: none; color: #64748b; cursor: pointer; font-size: 13px; font-family: inherit; transition: color .2s; text-align: left; }
+    .footer-link:hover { color: #facc15; }
+    .footer-contact { display: flex; flex-direction: column; gap: 12px; color: #64748b; font-size: 13px; }
+    .footer-contact-row { display: flex; gap: 10px; align-items: flex-start; }
+    .footer-contact-row svg { margin-top: 1px; flex-shrink: 0; color: #64748b; }
+    .footer-social { display: flex; gap: 14px; }
+    .footer-social a { color: #64748b; text-decoration: none; display: flex; transition: color .2s; }
+    .footer-social a:hover { color: #facc15; }
+    .footer-bottom { text-align: center; border-top: 1px solid rgba(59,130,246,.15); padding-top: 20px; margin-top: 36px; font-size: 11px; color: #1e3a5f; }
+
+    /* ── JOIN MODAL ── */
+    #join-modal {
+      display: none; position: fixed; inset: 0;
+      background: rgba(2,8,24,.96); backdrop-filter: blur(12px);
+      align-items: center; justify-content: center; z-index: 200;
+    }
+    #join-modal.open { display: flex; }
+    .modal-close {
+      position: fixed; top: 16px; right: 16px;
+      background: rgba(255,255,255,.08); border: none; color: white;
+      width: 48px; height: 48px; border-radius: 50%; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .modal-close svg { color: white; }
+    .modal-inner { width: 100%; max-width: 900px; padding: 40px 16px 48px; max-height: 90vh; overflow-y: auto; }
+    .modal-title { font-size: clamp(1.5rem,4vw,2.5rem); font-weight: 900; color: white; text-align: center; margin-bottom: 32px; }
+    .modal-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 20px; }
+    .modal-panel { background: rgba(15,30,70,.7); border: 1px solid rgba(59,130,246,.15); border-radius: 12px; padding: 24px; }
+    .modal-panel-title { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: white; margin-bottom: 12px; }
+    .modal-panel-title svg { color: #facc15; }
+    .plan-select-wrap { position: relative; margin-bottom: 20px; }
+    .plan-select {
+      width: 100%; background: rgba(59,130,246,.08); color: white;
+      border: 1px solid #facc15; border-radius: 8px; padding: 12px 36px 12px 16px;
+      appearance: none; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;
+    }
+    .plan-chevron { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #94a3b8; }
+    .plan-access-title { color: #facc15; font-weight: 700; font-size: 14px; margin-bottom: 12px; }
+    .plan-features { display: flex; flex-direction: column; gap: 10px; font-size: 13px; color: #cbd5e1; }
+    .plan-feature { display: flex; align-items: center; gap: 8px; }
+    .plan-feature svg { color: #facc15; flex-shrink: 0; }
+    .form-field { display: flex; flex-direction: column; gap: 14px; }
+    .form-label { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: #cbd5e1; margin-bottom: 5px; }
+    .form-label svg { color: #facc15; }
+    .form-input {
+      width: 100%; background: rgba(59,130,246,.08); color: white;
+      border: 1px solid rgba(59,130,246,.2); border-radius: 8px;
+      padding: 10px 12px; font-size: 13px; font-family: inherit; transition: border-color .2s;
+    }
+    .form-input:focus { outline: none; border-color: #3b82f6; }
+    .form-input::placeholder { color: #475569; }
+    textarea.form-input { min-height: 72px; resize: none; }
+    .btn-submit {
+      width: 100%; background: #facc15; color: #000; font-weight: 700; font-size: 14px;
+      padding: 13px; border-radius: 8px; border: none; cursor: pointer;
+      transition: background .2s; font-family: inherit;
+    }
+    .btn-submit:hover { background: #eab308; }
+  </style>
 </head>
-<body class="font-inter text-gray-300 antialiased selection:bg-brand-yellow selection:text-black flex flex-col min-h-screen">
+<body>
 
-    <nav class="w-full py-4 px-6 md:px-16 flex items-center justify-between border-b border-white/5 backdrop-blur-xl sticky top-0 z-40 bg-black/60">
-        <div class="flex items-center gap-3 cursor-pointer z-50" onclick="showPage('home')">
-            <div class="w-9 h-9 md:w-10 md:h-10 bg-brand-yellow text-black flex items-center justify-center rounded-lg transform rotate-3 shadow-[0_0_15px_rgba(250,204,21,0.5)]">
-                <i class="fa-solid fa-bolt text-lg md:text-xl -rotate-3"></i>
-            </div>
-            <span class="text-xl md:text-2xl font-extrabold text-white tracking-tight hover:text-brand-yellow transition-colors whitespace-nowrap">JR FITNESS 24X7</span>
+  <!-- ══ INTRO OVERLAY ══ -->
+  <div id="intro">
+    <div class="intro-glow"></div>
+    <div class="intro-divider" style="left:33%"></div>
+    <div class="intro-divider" style="left:67%"></div>
+    <div id="intro-cols"></div>
+    <div class="intro-fade-top"></div>
+    <div class="intro-fade-bottom"></div>
+  </div>
+
+  <!-- ══ NAV ══ -->
+  <nav>
+    <a class="nav-logo" onclick="goTo('home')">
+      <div class="nav-logo-icon">
+        <i data-lucide="zap" width="20" height="20" stroke-width="2.5"></i>
+      </div>
+      <span class="nav-logo-text">JR FITNESS 24X7</span>
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      <li><button class="active" onclick="goTo('home')">Home</button></li>
+      <li><button onclick="goTo('about')">About Us</button></li>
+      <li><button onclick="goTo('founder')">Behind JR</button></li>
+      <li><button onclick="goTo('classes')">Classes</button></li>
+    </ul>
+
+    <div class="nav-right">
+      <button class="btn-join-nav" onclick="openJoin()">JOIN US</button>
+      <button class="btn-mobile-menu" onclick="openMobileMenu()">
+        <i data-lucide="menu" width="26" height="26"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══ MOBILE MENU ══ -->
+  <div id="mobile-menu">
+    <button class="mobile-close" onclick="closeMobileMenu()">
+      <i data-lucide="x" width="22" height="22"></i>
+    </button>
+    <button class="mobile-nav-btn" onclick="goTo('home');closeMobileMenu()">Home</button>
+    <button class="mobile-nav-btn" onclick="goTo('about');closeMobileMenu()">About Us</button>
+    <button class="mobile-nav-btn" onclick="goTo('founder');closeMobileMenu()">Behind JR</button>
+    <button class="mobile-nav-btn" onclick="goTo('classes');closeMobileMenu()">Classes</button>
+    <button class="btn-join-mobile" onclick="openJoin();closeMobileMenu()">JOIN US</button>
+  </div>
+
+  <!-- ══ HOME ══ -->
+  <div id="page-home" class="page active">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          Premium Gym &middot; Vrindavan Colony, Lucknow
         </div>
-
-        <ul class="hidden md:flex items-center gap-10">
-            <li><button onclick="showPage('home')" class="text-xs font-bold uppercase tracking-widest text-white hover:text-brand-yellow transition-colors">Home</button></li>
-            <li><button onclick="showPage('about')" class="text-xs font-bold uppercase tracking-widest text-white hover:text-brand-yellow transition-colors">About Us</button></li>
-            <li><button onclick="showPage('founder')" class="text-xs font-bold uppercase tracking-widest text-white hover:text-brand-yellow transition-colors">Behind JR</button></li>
-            <li><button onclick="showPage('classes')" class="text-xs font-bold uppercase tracking-widest text-white hover:text-brand-yellow transition-colors">Classes</button></li>
-        </ul>
-
-        <div class="flex items-center gap-4 z-50">
-            <button onclick="document.getElementById('join-modal').classList.remove('hidden')" class="hidden md:block text-sm font-bold text-black bg-brand-yellow px-6 py-2.5 rounded-full hover:bg-yellow-400 transition-all duration-300 shadow-[0_0_15px_rgba(250,204,21,0.3)] whitespace-nowrap">
-                JOIN US
-            </button>
-            <button onclick="toggleMobileMenu()" class="md:hidden text-white text-2xl focus:outline-none px-2 py-1">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+        <h1 class="hero-title">
+          Transform Your Body,<br>
+          <span class="gold">Transform Your Life.</span>
+        </h1>
+        <p class="hero-sub">
+          Welcome to JR Fitness 24x7, where we believe in pushing boundaries. Experience world-class training, state-of-the-art facilities, and a community that refuses to quit.
+        </p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="openJoin()">JOIN US TODAY</button>
+          <button class="btn-secondary" onclick="document.getElementById('tour-section').scrollIntoView({behavior:'smooth'})">Take A Tour</button>
         </div>
-    </nav>
-
-    <div id="mobile-menu" class="fixed inset-0 bg-[#030712]/98 backdrop-blur-2xl flex flex-col items-center justify-center gap-8 z-[100] hidden transition-opacity duration-300">
-        <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-white text-4xl hover:text-brand-yellow p-2">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-        
-        <div class="flex items-center gap-3 mb-8" onclick="showPage('home'); toggleMobileMenu()">
-            <div class="w-12 h-12 bg-brand-yellow text-black flex items-center justify-center rounded-lg transform rotate-3"><i class="fa-solid fa-bolt text-2xl -rotate-3"></i></div>
-            <span class="text-3xl font-extrabold text-white tracking-tight">JR FITNESS 24X7</span>
+        <div class="hero-icons">
+          <div class="hero-icon-item">
+            <div class="hero-icon-box"><i data-lucide="dumbbell" width="26" height="26"></i></div>
+            <span class="hero-icon-label">Strength</span>
+          </div>
+          <div class="hero-icon-item">
+            <div class="hero-icon-box"><i data-lucide="heart" width="26" height="26"></i></div>
+            <span class="hero-icon-label">Cardio</span>
+          </div>
+          <div class="hero-icon-item">
+            <div class="hero-icon-box"><i data-lucide="users" width="26" height="26"></i></div>
+            <span class="hero-icon-label">Community</span>
+          </div>
         </div>
-
-        <button onclick="showPage('home'); toggleMobileMenu()" class="text-2xl font-bold uppercase tracking-widest text-white hover:text-brand-yellow transition-colors">Home</button>
-        <button onclick="showPage('about'); toggleMobileMenu()" class="text-2xl font-bold uppercase tracking-widest text-white hover:text-brand-yellow transition-colors">Who We Are</button>
-        <button onclick="showPage('founder'); toggleMobileMenu()" class="text-2xl font-bold uppercase tracking-widest text-white hover:text-brand-yellow transition-colors">Behind JR</button>
-        <button onclick="showPage('classes'); toggleMobileMenu()" class="text-2xl font-bold uppercase tracking-widest text-white hover:text-brand-yellow transition-colors">Classes</button>
-        
-        <button onclick="document.getElementById('join-modal').classList.remove('hidden'); toggleMobileMenu()" class="text-xl font-bold text-black bg-brand-yellow px-10 py-4 rounded-full mt-8 shadow-[0_0_20px_rgba(250,204,21,0.4)]">
-            JOIN US
-        </button>
+      </div>
     </div>
 
-    <div class="flex-grow w-full overflow-x-hidden">
-    
-        <main id="home" class="page-section w-full pb-20 transition-opacity duration-500">
-            <div class="px-6 py-20 md:py-32 flex flex-col items-center justify-center text-center">
-                <h1 class="text-4xl md:text-7xl font-extrabold text-white leading-tight mb-6 drop-shadow-lg">
-                    Transform Your Body, <br/> 
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-yellow to-yellow-600">Transform Your Life.</span>
-                </h1>
-                <p class="max-w-2xl text-base md:text-xl text-gray-400 mb-12 md:mb-16 leading-relaxed">
-                    Welcome to Elite Fitness, where we believe in pushing boundaries. Experience world-class training, state-of-the-art facilities, and a community that refuses to quit.
-                </p>
-
-                <div class="flex flex-wrap items-center justify-center gap-8 md:gap-24 w-full max-w-5xl">
-                    <div class="flex flex-col items-center gap-3 md:gap-4 group cursor-pointer">
-                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white/5 border border-brand-yellow/20 flex items-center justify-center group-hover:-translate-y-2 transition-transform duration-300 shadow-[0_0_15px_rgba(250,204,21,0.1)]">
-                            <i class="fa-solid fa-dumbbell text-2xl md:text-3xl text-brand-yellow"></i>
-                        </div>
-                        <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">Strength</span>
-                    </div>
-                    <div class="flex flex-col items-center gap-3 md:gap-4 group cursor-pointer">
-                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white/5 border border-brand-yellow/20 flex items-center justify-center group-hover:-translate-y-2 transition-transform duration-300 shadow-[0_0_15px_rgba(250,204,21,0.1)]">
-                            <i class="fa-solid fa-heart-pulse text-2xl md:text-3xl text-brand-yellow"></i>
-                        </div>
-                        <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">Cardio</span>
-                    </div>
-                    <div class="flex flex-col items-center gap-3 md:gap-4 group cursor-pointer">
-                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white/5 border border-brand-yellow/20 flex items-center justify-center group-hover:-translate-y-2 transition-transform duration-300 shadow-[0_0_15px_rgba(250,204,21,0.1)]">
-                            <i class="fa-solid fa-users text-2xl md:text-3xl text-brand-yellow"></i>
-                        </div>
-                        <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">Community</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="w-full border-y border-white/5 bg-white/[0.02] py-10 md:py-12 px-6 mt-10 md:mt-20">
-                <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-y-10 gap-x-4 md:gap-8 text-center md:divide-x md:divide-white/10">
-                    <div>
-                        <h4 class="text-3xl md:text-4xl font-extrabold text-brand-yellow mb-2">500+</h4>
-                        <p class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-400">Active Members</p>
-                    </div>
-                    <div>
-                        <h4 class="text-3xl md:text-4xl font-extrabold text-brand-yellow mb-2">65+</h4>
-                        <p class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-400">Premium Machines</p>
-                    </div>
-                    <div>
-                        <h4 class="text-3xl md:text-4xl font-extrabold text-brand-yellow mb-2">10+</h4>
-                        <p class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-400">Expert Coaches</p>
-                    </div>
-                    <div>
-                        <h4 class="text-3xl md:text-4xl font-extrabold text-brand-yellow mb-2">24/7</h4>
-                        <p class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-400">Always Open</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="w-full max-w-7xl mx-auto mt-20 md:mt-32 px-6">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-10 gap-4">
-                    <div>
-                        <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-2 md:mb-4 uppercase">Take A <span class="text-brand-yellow">Tour</span></h2>
-                        <p class="text-sm md:text-base text-gray-400 max-w-xl">Experience our state-of-the-art facility equipped with the latest technology.</p>
-                    </div>
-                    <button onclick="document.getElementById('join-modal').classList.remove('hidden')" class="text-xs md:text-sm font-bold text-white border-b-2 border-brand-yellow pb-1 hover:text-brand-yellow transition-colors uppercase tracking-wider">
-                        Book a Free Trial <i class="fa-solid fa-arrow-right ml-2"></i>
-                    </button>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 h-auto md:h-[400px]">
-                    <div class="md:col-span-2 md:row-span-2 rounded-2xl overflow-hidden bg-slate-800 relative h-64 md:h-auto w-full">
-                        <img src="https://lh3.googleusercontent.com/p/AF1QipN-6ViS31jNjXtyIXBdBheoy4yhXirdxT8ZfQHT=s1360-w1360-h1020-rw" class="w-full h-full object-cover opacity-80 hover:scale-105 transition-transform duration-700">
-                    </div>
-                    <div class="rounded-2xl overflow-hidden bg-slate-800 relative h-48 md:h-auto w-full">
-                        <img src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweo4YKb7twtAa4SOiJA_SZPy02piJu4L1TPYLxcCRiMsw_QJk3YaT7dXdhkDWFlLiodgrqSD3km3cv4l9fNONv2I_OZoySSb7sGSAiLd427iafkDV8gzM3b9nogQKO91iIs3xyq-0g=s1360-w1360-h1020-rw" class="w-full h-full object-cover opacity-80 hover:scale-105 transition-transform duration-700">
-                    </div>
-                    <div class="rounded-2xl overflow-hidden bg-slate-800 relative h-48 md:h-auto w-full">
-                        <img src="https://lh3.googleusercontent.com/p/AF1QipOcbjG6soN4kXMWK6tIK79cPtSAddNlYqbCAtrW=s1360-w1360-h1020-rw" class="w-full h-full object-cover opacity-80 hover:scale-105 transition-transform duration-700">
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <main id="about" class="page-section hidden w-full py-20 md:py-32 px-6 transition-opacity duration-500">
-            <div class="flex flex-col items-center justify-center text-center relative overflow-hidden mb-20">
-                <div class="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 w-full overflow-hidden">
-                    <h2 class="text-6xl md:text-[12rem] font-extrabold text-stroke uppercase whitespace-nowrap opacity-50 md:opacity-100">About Us</h2>
-                </div>
-                <h3 class="text-2xl md:text-5xl font-extrabold tracking-tight text-white mb-6 uppercase z-10 w-full px-2">
-                    Not just a gym, a <span class="text-brand-yellow">Community Staple</span>
-                </h3>
-                <p class="max-w-3xl text-sm md:text-lg text-gray-300 font-medium leading-relaxed z-10 px-4">
-                    While JR Fitness 24x7 doesn't have a grand, centuries-old historical background like a monument, it possesses a solid local history as one of the staple fitness centers in the Vrindavan Colony & Vrindavan Yojana area of Lucknow.
-                </p>
-            </div>
-
-            <div class="max-w-7xl mx-auto space-y-16">
-                <div class="bg-brand-card border border-white/5 rounded-2xl p-6 md:p-10 shadow-xl">
-                    <h4 class="text-2xl font-extrabold text-brand-yellow mb-6 flex items-center gap-3"><i class="fa-solid fa-map-location-dot"></i> Origins & Establishment</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm md:text-base text-gray-300">
-                        <div>
-                            <span class="block text-white font-bold mb-1">Timeline</span>
-                            JR Fitness has been operating in the Vrindavan Colony area for roughly 7 to 9 years (established around 2015–2017).
-                        </div>
-                        <div>
-                            <span class="block text-white font-bold mb-1">Location</span>
-                            Anchored in a prime spot—Plot No. 3M-08, Sector 3, opposite SKD Academy on Raebareli Road. This strategic location attracts a steady stream of locals, students, and professionals in the rapidly developing Vrindavan Yojana.
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="text-2xl font-extrabold text-white mb-6 text-center w-full">The People <span class="text-brand-yellow">Behind The Legacy</span></h4>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-                        <div class="bg-[#111c34] p-6 rounded-xl border border-brand-yellow/10">
-                            <h5 class="text-brand-yellow font-bold text-lg mb-2">Jitin Raj</h5>
-                            <span class="text-xs uppercase tracking-widest text-gray-500 font-bold block mb-3">Primary Owner</span>
-                            <p class="text-sm text-gray-400">Frequently cited by long-term members as a highly supportive figure in building the gym's welcoming culture.</p>
-                        </div>
-                        <div class="bg-[#111c34] p-6 rounded-xl border border-brand-yellow/10">
-                            <h5 class="text-brand-yellow font-bold text-lg mb-2">Sudha</h5>
-                            <span class="text-xs uppercase tracking-widest text-gray-500 font-bold block mb-3">Core Manager / Lead Trainer</span>
-                            <p class="text-sm text-gray-400">Widely credited for structuring member schedules, diet plans, and ensuring a safe, comfortable environment for women.</p>
-                        </div>
-                        <div class="bg-[#111c34] p-6 rounded-xl border border-brand-yellow/10">
-                            <h5 class="text-brand-yellow font-bold text-lg mb-2">Pratik Yadav</h5>
-                            <span class="text-xs uppercase tracking-widest text-gray-500 font-bold block mb-3">Co-Owner / Partner</span>
-                            <p class="text-sm text-gray-400">A key partner instrumental in managing operations and driving the popularity of the facility.</p>
-                        </div>
-                        <div class="bg-[#111c34] p-6 rounded-xl border border-brand-yellow/10">
-                            <h5 class="text-brand-yellow font-bold text-lg mb-2">Shantanu</h5>
-                            <span class="text-xs uppercase tracking-widest text-gray-500 font-bold block mb-3">Head Coach</span>
-                            <p class="text-sm text-gray-400">Helped build the gym's reputation for serious bodybuilding, weight loss, and professional guidance.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-gradient-to-br from-[#0b1120] to-[#050b14] border border-white/5 rounded-2xl p-6 md:p-10 w-full">
-                    <h4 class="text-2xl font-extrabold text-brand-yellow mb-8 text-center">How It Grew Its Reputation</h4>
-                    <p class="text-gray-300 text-center max-w-2xl mx-auto mb-10 text-sm md:text-base">JR Fitness built its local legacy by adapting to modern fitness trends rather than remaining a traditional "weights only" gym.</p>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="text-center">
-                            <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 text-brand-yellow text-xl"><i class="fa-solid fa-clock"></i></div>
-                            <h6 class="text-white font-bold mb-2">24/7 Availability</h6>
-                            <p class="text-xs md:text-sm text-gray-400">Early adopters offering flexible, round-the-clock timings, making it a go-to for unconventional work schedules.</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 text-brand-yellow text-xl"><i class="fa-solid fa-dumbbell"></i></div>
-                            <h6 class="text-white font-bold mb-2">Diverse Offerings</h6>
-                            <p class="text-xs md:text-sm text-gray-400">Expanded beyond basic weightlifting to include Zumba, CrossFit, aerobics, and personalized nutrition counseling.</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 text-brand-yellow text-xl"><i class="fa-solid fa-users"></i></div>
-                            <h6 class="text-white font-bold mb-2">Community Focus</h6>
-                            <p class="text-xs md:text-sm text-gray-400">Established a strong reputation for professional trainers, highly recommended for beginners and female fitness enthusiasts.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <main id="founder" class="page-section hidden w-full py-20 px-6 transition-opacity duration-500">
-            <div class="max-w-6xl mx-auto flex flex-col items-center gap-8 md:gap-12 text-center w-full">
-                <div class="w-48 h-48 md:w-64 md:h-64 rounded-full border-4 border-brand-yellow overflow-hidden shadow-[0_0_30px_rgba(250,204,21,0.3)]">
-                    <img src="https://res.cloudinary.com/darud4dy1/image/upload/v1774194510/Screenshot_2026-03-22_211659_y53bea.png" alt="Jitin Raj" class="w-full h-full object-cover">
-                </div>
-                
-                <div class="w-full">
-                    <h2 class="text-4xl md:text-6xl font-extrabold text-white mb-2">Jitin Raj</h2>
-                    <p class="text-xl md:text-2xl text-brand-yellow font-bold mb-6">Primary Owner & Founder</p>
-                    
-                    <div class="flex flex-wrap justify-center gap-3 md:gap-4 mb-10 w-full px-2">
-                        <div class="bg-white/5 border border-white/10 px-4 py-2 text-xs md:text-base rounded-full flex items-center gap-2 text-white font-semibold">
-                            <i class="fa-solid fa-location-dot text-brand-yellow"></i> Plot 3M-08, Sector 3, Vrindavan Yojana
-                        </div>
-                        <div class="bg-white/5 border border-white/10 px-4 py-2 text-xs md:text-base rounded-full flex items-center gap-2 text-white font-semibold">
-                            <i class="fa-solid fa-calendar-check text-brand-yellow"></i> Established 2015-2017
-                        </div>
-                    </div>
-                    
-                    <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-white/5 max-w-4xl mx-auto text-left w-full">
-                        <h3 class="text-2xl font-extrabold text-brand-yellow mb-4">About Me</h3>
-                        <p class="text-gray-300 leading-relaxed text-sm md:text-base mb-6">
-                            Jitin Raj is the primary owner and founder of JR Fitness 24x7 Gym. For the past 7-9 years, he has been instrumental in building the gym's highly welcoming culture. With a focus on adapting to modern fitness trends and providing a space that caters to everyone from students to busy professionals, Jitin has successfully cemented JR Fitness as a reliable community staple in Vrindavan Colony.
-                        </p>
-                        <div class="flex items-center gap-3 md:gap-4 bg-brand-input p-3 md:p-4 rounded-lg border border-white/5 inline-flex w-full md:w-auto">
-                            <i class="fa-regular fa-envelope text-lg md:text-xl text-brand-yellow"></i>
-                            <span class="text-gray-200 font-semibold text-xs md:text-sm break-all">jrfitness24x7@gmail.com</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <main id="classes" class="page-section hidden w-full py-20 px-6 max-w-7xl mx-auto transition-opacity duration-500">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-white text-center mb-10 md:mb-12 uppercase tracking-wide">Our <span class="text-brand-yellow">Classes</span></h2>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
-                <div class="bg-brand-card rounded-2xl overflow-hidden border border-white/5 hover:border-brand-yellow transition-colors group cursor-pointer w-full">
-                    <div class="relative h-48 bg-slate-800 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-4 left-4 w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white"><i class="fa-solid fa-dumbbell"></i></div>
-                        <div class="absolute top-4 right-4 bg-black/70 px-2 py-1 rounded text-brand-yellow text-xs"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    </div>
-                    <div class="p-6">
-                        <h4 class="text-lg md:text-xl font-bold text-white mb-2">Power Lifting</h4>
-                        <p class="text-gray-400 text-xs md:text-sm mb-4 line-clamp-2">Build strength and muscle with our comprehensive weightlifting program.</p>
-                        <p class="text-[10px] md:text-xs text-brand-yellow font-bold uppercase">Duration : 60 mins</p>
-                    </div>
-                </div>
-
-                <div class="bg-brand-card rounded-2xl overflow-hidden border border-white/5 hover:border-brand-yellow transition-colors group cursor-pointer w-full">
-                    <div class="relative h-48 bg-slate-800 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-4 left-4 w-10 h-10 bg-red-500 rounded-full flex items-center justify-center text-white"><i class="fa-solid fa-heart-pulse"></i></div>
-                        <div class="absolute top-4 right-4 bg-black/70 px-2 py-1 rounded text-brand-yellow text-xs"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    </div>
-                    <div class="p-6">
-                        <h4 class="text-lg md:text-xl font-bold text-white mb-2">Cardio Blast</h4>
-                        <p class="text-gray-400 text-xs md:text-sm mb-4 line-clamp-2">High-intensity cardio workout to boost your endurance and burn calories.</p>
-                        <p class="text-[10px] md:text-xs text-brand-yellow font-bold uppercase">Duration : 45 mins</p>
-                    </div>
-                </div>
-                
-                <div class="bg-brand-card rounded-2xl overflow-hidden border border-white/5 hover:border-brand-yellow transition-colors group cursor-pointer w-full">
-                    <div class="relative h-48 bg-slate-800 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-4 left-4 w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white"><i class="fa-solid fa-fire"></i></div>
-                        <div class="absolute top-4 right-4 bg-black/70 px-2 py-1 rounded text-brand-yellow text-xs"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    </div>
-                    <div class="p-6">
-                        <h4 class="text-lg md:text-xl font-bold text-white mb-2">HIIT Training</h4>
-                        <p class="text-gray-400 text-xs md:text-sm mb-4 line-clamp-2">Interval training combining strength and cardio for maximum results.</p>
-                        <p class="text-[10px] md:text-xs text-brand-yellow font-bold uppercase">Duration : 50 mins</p>
-                    </div>
-                </div>
-
-                <div class="bg-brand-card rounded-2xl overflow-hidden border border-white/5 hover:border-brand-yellow transition-colors group cursor-pointer w-full">
-                    <div class="relative h-48 bg-slate-800 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-4 left-4 w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center text-white"><i class="fa-solid fa-music"></i></div>
-                        <div class="absolute top-4 right-4 bg-black/70 px-2 py-1 rounded text-brand-yellow text-xs"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    </div>
-                    <div class="p-6">
-                        <h4 class="text-lg md:text-xl font-bold text-white mb-2">Zumba Dance</h4>
-                        <p class="text-gray-400 text-xs md:text-sm mb-4 line-clamp-2">Fun dance-based workout combining Latin rhythms with cardio exercises.</p>
-                        <p class="text-[10px] md:text-xs text-brand-yellow font-bold uppercase">Duration : 55 mins</p>
-                    </div>
-                </div>
-            </div>
-        </main>
-        
-    </div> <footer class="w-full border-t border-white/5 bg-[#050b14] pt-12 pb-8 px-6 md:px-16 text-sm mt-auto z-10">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 md:gap-12 text-center sm:text-left w-full">
-            
-            <div class="md:col-span-1">
-                <div class="flex items-center gap-2 mb-4 justify-center sm:justify-start">
-                    <div class="w-8 h-8 bg-brand-yellow text-black flex items-center justify-center rounded transform rotate-3"><i class="fa-solid fa-bolt -rotate-3"></i></div>
-                    <span class="text-xl font-extrabold text-white">JR FITNESS 24X7</span>
-                </div>
-                <p class="text-gray-400 leading-relaxed text-xs md:text-sm">
-                    Transform your life with our state-of-the-art facilities and expert trainers. Join our fitness community today.
-                </p>
-            </div>
-
-            <div>
-                <h5 class="font-bold text-white mb-4 uppercase tracking-wider text-xs">Quick Links</h5>
-                <ul class="space-y-3 text-gray-400 text-xs md:text-sm">
-                    <li><button onclick="showPage('classes')" class="hover:text-brand-yellow">Classes</button></li>
-                    <li><button onclick="document.getElementById('join-modal').classList.remove('hidden')" class="hover:text-brand-yellow">Membership</button></li>
-                    <li><button onclick="showPage('about')" class="hover:text-brand-yellow">About Us</button></li>
-                </ul>
-            </div>
-
-            <div class="sm:col-span-2 md:col-span-1">
-                <h5 class="font-bold text-white mb-4 uppercase tracking-wider text-xs">Contact Us</h5>
-                <ul class="space-y-4 text-gray-400 text-xs md:text-sm">
-                    <li class="flex items-start gap-3 justify-center sm:justify-start">
-                        <i class="fa-solid fa-location-dot mt-1 text-white"></i>
-                        <span>Plot No. 3M-08, Sector 3, Vrindavan Yojana, Lucknow</span>
-                    </li>
-                    <li class="flex items-center gap-3 justify-center sm:justify-start">
-                        <i class="fa-solid fa-phone text-white"></i>
-                        <span>+91-8187906088</span>
-                    </li>
-                    <li class="flex items-center gap-3 justify-center sm:justify-start">
-                        <i class="fa-regular fa-envelope text-white"></i>
-                        <span>jrfitness24x7@gmail.com</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div>
-                <h5 class="font-bold text-white mb-4 uppercase tracking-wider text-xs">Follow Us</h5>
-                <div class="flex gap-4 justify-center sm:justify-start text-white text-lg">
-                    <a href="#" class="hover:text-brand-yellow"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="hover:text-brand-yellow"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="hover:text-brand-yellow"><i class="fa-brands fa-twitter"></i></a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="text-center border-t border-white/5 pt-8 mt-8 w-full">
-            <p class="text-[10px] md:text-xs text-gray-600">&copy; 2026 JR Fitness 24X7. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <div id="join-modal" class="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center z-[200] hidden overflow-hidden">
-        
-        <button onclick="document.getElementById('join-modal').classList.add('hidden')" class="fixed top-4 right-4 md:top-6 md:right-6 text-white hover:text-brand-yellow z-[210] transition-colors bg-white/10 w-12 h-12 rounded-full flex items-center justify-center">
-            <i class="fa-solid fa-xmark text-2xl"></i>
-        </button>
-
-        <div class="w-full max-w-5xl px-4 max-h-screen overflow-y-auto no-scrollbar py-12 md:py-20">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-white text-center mb-6 md:mb-8 mt-4 md:mt-0">Send Your Query</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 w-full">
-                <div class="bg-[#0b1120] border border-white/10 rounded-xl p-5 md:p-6 flex flex-col w-full">
-                    <label class="flex items-center gap-2 text-xs md:text-sm font-bold text-white mb-3">
-                        <i class="fa-solid fa-circle-info text-brand-yellow"></i> Select Your Plan
-                    </label>
-                    <div class="relative mb-5 md:mb-6">
-                        <select class="w-full bg-[#1e293b] text-white border border-brand-yellow rounded-lg px-4 py-3 appearance-none focus:outline-none font-semibold text-xs md:text-sm cursor-pointer">
-                            <option>MONTHLY</option>
-                            <option>QUARTERLY</option>
-                            <option>YEARLY</option>
-                        </select>
-                        <i class="fa-solid fa-chevron-down absolute right-4 top-4 text-gray-400 pointer-events-none text-xs"></i>
-                    </div>
-
-                    <div class="w-full h-32 md:h-48 bg-gray-800 rounded-lg overflow-hidden mb-5 md:mb-6 hidden sm:block">
-                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover opacity-80" alt="Gym Equipment">
-                    </div>
-
-                    <h4 class="text-brand-yellow font-bold text-base md:text-lg mb-3">Unlimited access to</h4>
-                    <ul class="space-y-2 md:space-y-3 text-xs md:text-sm text-gray-300">
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-yellow"></i> <span class="font-bold text-white">Features Included:</span></li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-yellow"></i> 65+ high quality equipments</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-yellow"></i> Functional training</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-yellow"></i> 24x7 access</li>
-                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-yellow"></i> Cafeteria</li>
-                    </ul>
-                </div>
-
-                <div class="bg-[#0b1120] border border-white/10 rounded-xl p-5 md:p-6 w-full mb-10 md:mb-0">
-                    <form class="space-y-4" onsubmit="event.preventDefault(); alert('Form Ready for Backend!'); document.getElementById('join-modal').classList.add('hidden');">
-                        <div>
-                            <label class="flex items-center gap-2 text-[10px] md:text-xs font-bold text-gray-300 mb-1.5 md:mb-2">
-                                <i class="fa-regular fa-calendar text-brand-yellow"></i> Start Date *
-                            </label>
-                            <input type="date" required class="w-full bg-brand-input text-gray-400 border border-white/5 rounded-lg px-3 py-2.5 md:py-3 focus:outline-none focus:border-brand-yellow text-xs md:text-sm">
-                        </div>
-                        <div>
-                            <label class="flex items-center gap-2 text-[10px] md:text-xs font-bold text-gray-300 mb-1.5 md:mb-2">
-                                <i class="fa-regular fa-user text-brand-yellow"></i> Full Name *
-                            </label>
-                            <input type="text" placeholder="Enter your full name" required class="w-full bg-brand-input text-white border border-white/5 rounded-lg px-3 py-2.5 md:py-3 focus:outline-none focus:border-brand-yellow text-xs md:text-sm placeholder-gray-500">
-                        </div>
-                        <div>
-                            <label class="flex items-center gap-2 text-[10px] md:text-xs font-bold text-gray-300 mb-1.5 md:mb-2">
-                                <i class="fa-regular fa-envelope text-brand-yellow"></i> Email Address *
-                            </label>
-                            <input type="email" placeholder="Enter your email" required class="w-full bg-brand-input text-white border border-white/5 rounded-lg px-3 py-2.5 md:py-3 focus:outline-none focus:border-brand-yellow text-xs md:text-sm placeholder-gray-500">
-                        </div>
-                        <div>
-                            <label class="flex items-center gap-2 text-[10px] md:text-xs font-bold text-gray-300 mb-1.5 md:mb-2">
-                                <i class="fa-solid fa-phone text-brand-yellow"></i> Phone Number *
-                            </label>
-                            <input type="tel" placeholder="Enter your phone number" required class="w-full bg-brand-input text-white border border-white/5 rounded-lg px-3 py-2.5 md:py-3 focus:outline-none focus:border-brand-yellow text-xs md:text-sm placeholder-gray-500">
-                        </div>
-                        <div>
-                            <label class="flex items-center gap-2 text-[10px] md:text-xs font-bold text-gray-300 mb-1.5 md:mb-2">
-                                <i class="fa-regular fa-comment-dots text-brand-yellow"></i> Any Questions? (Optional)
-                            </label>
-                            <textarea rows="3" placeholder="Enter any questions or special requirements" class="w-full bg-brand-input text-white border border-white/5 rounded-lg px-3 py-2.5 md:py-3 focus:outline-none focus:border-brand-yellow text-xs md:text-sm placeholder-gray-500 resize-none"></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-brand-yellow hover:bg-yellow-500 text-black font-bold py-3 md:py-4 rounded-lg mt-2 transition-colors shadow-lg text-sm md:text-base">
-                            Submit Query
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
+    <!-- Stats -->
+    <div class="stats-bar">
+      <div class="stats-grid">
+        <div><div class="stat-num">500+</div><div class="stat-label">Active Members</div></div>
+        <div><div class="stat-num">65+</div><div class="stat-label">Premium Machines</div></div>
+        <div><div class="stat-num">10+</div><div class="stat-label">Expert Coaches</div></div>
+        <div><div class="stat-num">24/7</div><div class="stat-label">Always Open</div></div>
+      </div>
     </div>
 
-    <script>
-        function showPage(pageId) {
-            const pages = document.querySelectorAll('.page-section');
-            pages.forEach(page => {
-                page.classList.add('hidden');
-            });
-            document.getElementById(pageId).classList.remove('hidden');
-            window.scrollTo(0,0);
-        }
+    <!-- Tour Gallery -->
+    <div class="tour-section" id="tour-section">
+      <div class="tour-header">
+        <div>
+          <div class="tour-title">Take A <span>Tour</span></div>
+          <div class="tour-sub">Experience our state-of-the-art facility equipped with the latest technology.</div>
+        </div>
+        <button class="btn-tour" onclick="openJoin()">
+          Book a Free Trial <i data-lucide="arrow-right" width="14" height="14"></i>
+        </button>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-main">
+          <div class="gallery-img-wrap">
+            <img src="https://lh3.googleusercontent.com/p/AF1QipN-6ViS31jNjXtyIXBdBheoy4yhXirdxT8ZfQHT=s1360-w1360-h1020-rw" alt="Main Hall" />
+          </div>
+        </div>
+        <div>
+          <div class="gallery-img-wrap">
+            <img src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweo4YKb7twtAa4SOiJA_SZPy02piJu4L1TPYLxcCRiMsw_QJk3YaT7dXdhkDWFlLiodgrqSD3km3cv4l9fNONv2I_OZoySSb7sGSAiLd427iafkDV8gzM3b9nogQKO91iIs3xyq-0g=s1360-w1360-h1020-rw" alt="Equipment" />
+          </div>
+        </div>
+        <div>
+          <div class="gallery-img-wrap">
+            <img src="https://lh3.googleusercontent.com/p/AF1QipOcbjG6soN4kXMWK6tIK79cPtSAddNlYqbCAtrW=s1360-w1360-h1020-rw" alt="Facility" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            if(menu.classList.contains('hidden')) {
-                menu.classList.remove('hidden');
-                document.body.style.overflow = 'hidden'; // Stop background scrolling
+  <!-- ══ ABOUT ══ -->
+  <div id="page-about" class="page">
+    <div class="section-page">
+      <div class="about-hero">
+        <div class="about-bg-text"><span>About Us</span></div>
+        <h2 class="section-title" style="position:relative">Not just a gym, a <span>Community Staple</span></h2>
+        <p style="max-width:700px;margin:0 auto;color:#cbd5e1;font-size:15px;line-height:1.8;position:relative">
+          While JR Fitness 24x7 doesn't have a grand historical background like a monument, it possesses a solid local history as one of the staple fitness centers in the Vrindavan Colony &amp; Vrindavan Yojana area of Lucknow.
+        </p>
+      </div>
+
+      <div class="card" style="margin-bottom:36px">
+        <div class="card-title">
+          <i data-lucide="map-pin" width="20" height="20"></i>
+          Origins &amp; Establishment
+        </div>
+        <div class="two-col" style="color:#cbd5e1;font-size:14px;line-height:1.75">
+          <div><strong style="color:white;display:block;margin-bottom:4px">Timeline</strong>JR Fitness has been operating in Vrindavan Colony for roughly 7–9 years (established around 2015–2017).</div>
+          <div><strong style="color:white;display:block;margin-bottom:4px">Location</strong>Plot No. 3M-08, Sector 3, opposite SKD Academy on Raebareli Road, Vrindavan Yojana, Lucknow.</div>
+        </div>
+      </div>
+
+      <h3 style="font-size:20px;font-weight:900;color:white;text-align:center;margin-bottom:20px">The People <span style="color:#facc15">Behind The Legacy</span></h3>
+      <div class="people-grid">
+        <div class="person-card">
+          <div class="person-name">Jitin Raj</div>
+          <div class="person-role">Primary Owner</div>
+          <div class="person-desc">Highly supportive figure who built the gym's welcoming culture over 7–9 years.</div>
+        </div>
+        <div class="person-card">
+          <div class="person-name">Sudha</div>
+          <div class="person-role">Core Manager / Lead Trainer</div>
+          <div class="person-desc">Structures schedules, diet plans, and ensures a safe environment for women.</div>
+        </div>
+        <div class="person-card">
+          <div class="person-name">Pratik Yadav</div>
+          <div class="person-role">Co-Owner / Partner</div>
+          <div class="person-desc">Key partner managing operations and driving the facility's growing popularity.</div>
+        </div>
+        <div class="person-card">
+          <div class="person-name">Shantanu</div>
+          <div class="person-role">Head Coach</div>
+          <div class="person-desc">Built the gym's reputation for bodybuilding, weight loss, and professional guidance.</div>
+        </div>
+      </div>
+
+      <div class="card" style="text-align:center">
+        <div class="card-title" style="justify-content:center;margin-bottom:12px">How It Grew Its Reputation</div>
+        <p style="color:#cbd5e1;max-width:600px;margin:0 auto 36px;font-size:14px;line-height:1.7">
+          JR Fitness built its local legacy by adapting to modern fitness trends rather than remaining a traditional "weights only" gym.
+        </p>
+        <div class="rep-grid">
+          <div>
+            <div class="rep-icon"><i data-lucide="clock" width="22" height="22"></i></div>
+            <div class="rep-title">24/7 Availability</div>
+            <div class="rep-desc">Flexible round-the-clock timings for unconventional work schedules.</div>
+          </div>
+          <div>
+            <div class="rep-icon"><i data-lucide="dumbbell" width="22" height="22"></i></div>
+            <div class="rep-title">Diverse Offerings</div>
+            <div class="rep-desc">Expanded to Zumba, CrossFit, aerobics, and personalized nutrition counseling.</div>
+          </div>
+          <div>
+            <div class="rep-icon"><i data-lucide="users" width="22" height="22"></i></div>
+            <div class="rep-title">Community Focus</div>
+            <div class="rep-desc">Professional trainers, highly recommended for beginners and female fitness enthusiasts.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FOUNDER ══ -->
+  <div id="page-founder" class="page">
+    <div class="section-page">
+      <div class="founder-inner">
+        <div class="founder-avatar">
+          <img src="https://res.cloudinary.com/darud4dy1/image/upload/v1774194510/Screenshot_2026-03-22_211659_y53bea.png" alt="Jitin Raj" />
+        </div>
+        <div style="width:100%">
+          <div class="founder-name">Jitin Raj</div>
+          <div class="founder-role">Primary Owner &amp; Founder</div>
+          <div class="founder-tags">
+            <div class="founder-tag">
+              <i data-lucide="map-pin" width="14" height="14"></i>
+              Plot 3M-08, Sector 3, Vrindavan Yojana
+            </div>
+            <div class="founder-tag">
+              <i data-lucide="calendar-days" width="14" height="14"></i>
+              Established 2015–2017
+            </div>
+          </div>
+          <div class="founder-bio">
+            <div class="founder-bio-title">About Me</div>
+            <p class="founder-bio-text">
+              Jitin Raj is the primary owner and founder of JR Fitness 24x7 Gym. For the past 7–9 years, he has been instrumental in building the gym's highly welcoming culture. With a focus on adapting to modern fitness trends and providing a space that caters to everyone from students to busy professionals, Jitin has successfully cemented JR Fitness as a reliable community staple in Vrindavan Colony.
+            </p>
+            <div class="founder-email">
+              <i data-lucide="mail" width="18" height="18"></i>
+              <span>jrfitness24x7@gmail.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CLASSES ══ -->
+  <div id="page-classes" class="page">
+    <div class="section-page" style="max-width:1200px">
+      <div class="classes-title">Our <span>Classes</span></div>
+      <div class="classes-grid">
+        <div class="class-card">
+          <div class="class-img-wrap">
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=400&q=80" alt="Power Lifting" />
+            <div class="class-icon" style="background:#3b82f6"><i data-lucide="dumbbell" width="18" height="18"></i></div>
+            <div class="class-stars">
+              <i data-lucide="star" width="11" height="11"></i>
+              <i data-lucide="star" width="11" height="11"></i>
+              <i data-lucide="star" width="11" height="11"></i>
+            </div>
+          </div>
+          <div class="class-body">
+            <div class="class-name">Power Lifting</div>
+            <div class="class-desc">Build strength and muscle with our comprehensive weightlifting program.</div>
+            <div class="class-dur">Duration: 60 mins</div>
+          </div>
+        </div>
+        <div class="class-card">
+          <div class="class-img-wrap">
+            <img src="https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=400&q=80" alt="Cardio Blast" />
+            <div class="class-icon" style="background:#ef4444"><i data-lucide="heart" width="18" height="18"></i></div>
+            <div class="class-stars">
+              <i data-lucide="star" width="11" height="11"></i>
+              <i data-lucide="star" width="11" height="11"></i>
+            </div>
+          </div>
+          <div class="class-body">
+            <div class="class-name">Cardio Blast</div>
+            <div class="class-desc">High-intensity cardio workout to boost your endurance and burn calories.</div>
+            <div class="class-dur">Duration: 45 mins</div>
+          </div>
+        </div>
+        <div class="class-card">
+          <div class="class-img-wrap">
+            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=400&q=80" alt="HIIT Training" />
+            <div class="class-icon" style="background:#f97316"><i data-lucide="flame" width="18" height="18"></i></div>
+            <div class="class-stars">
+              <i data-lucide="star" width="11" height="11"></i>
+              <i data-lucide="star" width="11" height="11"></i>
+              <i data-lucide="star" width="11" height="11"></i>
+              <i data-lucide="star" width="11" height="11"></i>
+            </div>
+          </div>
+          <div class="class-body">
+            <div class="class-name">HIIT Training</div>
+            <div class="class-desc">Interval training combining strength and cardio for maximum results.</div>
+            <div class="class-dur">Duration: 50 mins</div>
+          </div>
+        </div>
+        <div class="class-card">
+          <div class="class-img-wrap">
+            <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=400&q=80" alt="Zumba Dance" />
+            <div class="class-icon" style="background:#a855f7"><i data-lucide="music-2" width="18" height="18"></i></div>
+            <div class="class-stars">
+              <i data-lucide="star" width="11" height="11"></i>
+              <i data-lucide="star" width="11" height="11"></i>
+            </div>
+          </div>
+          <div class="class-body">
+            <div class="class-name">Zumba Dance</div>
+            <div class="class-desc">Fun dance-based workout combining Latin rhythms with cardio exercises.</div>
+            <div class="class-dur">Duration: 55 mins</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <div class="footer-logo-icon"><i data-lucide="zap" width="16" height="16" stroke-width="2.5"></i></div>
+          <span class="footer-logo-text">JR FITNESS 24X7</span>
+        </div>
+        <div class="footer-desc">Transform your life with our state-of-the-art facilities and expert trainers.</div>
+      </div>
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <div class="footer-links">
+          <button class="footer-link" onclick="goTo('classes')">Classes</button>
+          <button class="footer-link" onclick="goTo('about')">About Us</button>
+          <button class="footer-link" onclick="goTo('founder')">Behind JR</button>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact Us</div>
+        <div class="footer-contact">
+          <div class="footer-contact-row"><i data-lucide="map-pin" width="14" height="14"></i><span>Plot No. 3M-08, Sector 3, Vrindavan Yojana, Lucknow</span></div>
+          <div class="footer-contact-row"><i data-lucide="phone" width="14" height="14"></i><span>+91-8187906088</span></div>
+          <div class="footer-contact-row"><i data-lucide="mail" width="14" height="14"></i><span>jrfitness24x7@gmail.com</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Follow Us</div>
+        <div class="footer-social">
+          <a href="#"><i data-lucide="facebook" width="22" height="22"></i></a>
+          <a href="#"><i data-lucide="instagram" width="22" height="22"></i></a>
+          <a href="#"><i data-lucide="twitter" width="22" height="22"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 JR Fitness 24X7. All rights reserved.</div>
+  </footer>
+
+  <!-- ══ JOIN MODAL ══ -->
+  <div id="join-modal" onclick="handleModalBgClick(event)">
+    <button class="modal-close" onclick="closeJoin()">
+      <i data-lucide="x" width="22" height="22"></i>
+    </button>
+    <div class="modal-inner">
+      <div class="modal-title">Send Your Query</div>
+      <div class="modal-grid">
+        <!-- Plan panel -->
+        <div class="modal-panel">
+          <div class="modal-panel-title">
+            <i data-lucide="info" width="16" height="16"></i> Select Your Plan
+          </div>
+          <div class="plan-select-wrap">
+            <select class="plan-select">
+              <option>MONTHLY</option>
+              <option>QUARTERLY</option>
+              <option>YEARLY</option>
+            </select>
+            <span class="plan-chevron"><i data-lucide="chevron-down" width="14" height="14"></i></span>
+          </div>
+          <div class="plan-access-title">Unlimited access to</div>
+          <div class="plan-features">
+            <div class="plan-feature"><i data-lucide="check" width="14" height="14"></i> 65+ high quality equipments</div>
+            <div class="plan-feature"><i data-lucide="check" width="14" height="14"></i> Functional training</div>
+            <div class="plan-feature"><i data-lucide="check" width="14" height="14"></i> 24x7 access</div>
+            <div class="plan-feature"><i data-lucide="check" width="14" height="14"></i> Cafeteria</div>
+          </div>
+        </div>
+        <!-- Form panel -->
+        <div class="modal-panel">
+          <form onsubmit="handleFormSubmit(event)">
+            <div class="form-field">
+              <div>
+                <div class="form-label"><i data-lucide="calendar-days" width="12" height="12"></i> Start Date *</div>
+                <input type="date" class="form-input" required />
+              </div>
+              <div>
+                <div class="form-label"><i data-lucide="user" width="12" height="12"></i> Full Name *</div>
+                <input type="text" placeholder="Enter your full name" class="form-input" required />
+              </div>
+              <div>
+                <div class="form-label"><i data-lucide="mail" width="12" height="12"></i> Email Address *</div>
+                <input type="email" placeholder="Enter your email" class="form-input" required />
+              </div>
+              <div>
+                <div class="form-label"><i data-lucide="phone" width="12" height="12"></i> Phone Number *</div>
+                <input type="tel" placeholder="Enter your phone number" class="form-input" required />
+              </div>
+              <div>
+                <div class="form-label"><i data-lucide="message-square" width="12" height="12"></i> Any Questions? (Optional)</div>
+                <textarea placeholder="Type your question here..." class="form-input"></textarea>
+              </div>
+              <button type="submit" class="btn-submit">SEND QUERY</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── Init Lucide Icons ──
+    lucide.createIcons();
+
+    // ── Slot Machine Intro ──
+    const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const FINALS = ['J', 'R'];
+    const NUM_ROWS = 6;
+    const colsEl = document.getElementById('intro-cols');
+    const introEl = document.getElementById('intro');
+
+    // Build columns
+    const colEls = FINALS.map((_, ci) => {
+      const col = document.createElement('div');
+      col.className = 'intro-col';
+      const spans = Array.from({ length: NUM_ROWS }, (_, ri) => {
+        const s = document.createElement('span');
+        s.className = 'slot-letter';
+        s.style.color = `rgba(147,197,253,${0.06 + (ri / (NUM_ROWS - 1)) * 0.14})`;
+        s.textContent = ALPHABET[Math.floor(Math.random() * 26)];
+        col.appendChild(s);
+        return s;
+      });
+      colsEl.appendChild(col);
+      return spans;
+    });
+
+    let settledCount = 0;
+
+    FINALS.forEach((finalLetter, ci) => {
+      setTimeout(() => {
+        let count = 0;
+        const maxSpins = 22 + Math.floor(Math.random() * 8);
+        const iv = setInterval(() => {
+          count++;
+          colEls[ci].forEach((span, ri) => {
+            if (count >= maxSpins && ri === NUM_ROWS - 1) {
+              span.textContent = finalLetter;
+              span.classList.add('settled');
             } else {
-                menu.classList.add('hidden');
-                document.body.style.overflow = '';
+              span.textContent = ALPHABET[Math.floor(Math.random() * 26)];
             }
-        }
-    </script>
+          });
+          if (count >= maxSpins) {
+            clearInterval(iv);
+            settledCount++;
+            if (settledCount === FINALS.length) {
+              setTimeout(() => {
+                introEl.classList.add('fade-out');
+                setTimeout(() => introEl.remove(), 700);
+              }, 950);
+            }
+          }
+        }, 70);
+      }, ci * 350);
+    });
+
+    // ── Page Navigation ──
+    const pages = ['home', 'about', 'founder', 'classes'];
+
+    function goTo(pageId) {
+      pages.forEach(id => {
+        document.getElementById('page-' + id).classList.toggle('active', id === pageId);
+      });
+      // Update nav active state
+      document.querySelectorAll('#nav-links button').forEach((btn, i) => {
+        btn.classList.toggle('active', pages[i] === pageId);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ── Mobile Menu ──
+    function openMobileMenu() {
+      document.getElementById('mobile-menu').classList.add('open');
+    }
+    function closeMobileMenu() {
+      document.getElementById('mobile-menu').classList.remove('open');
+    }
+
+    // ── Join Modal ──
+    function openJoin() {
+      document.getElementById('join-modal').classList.add('open');
+    }
+    function closeJoin() {
+      document.getElementById('join-modal').classList.remove('open');
+    }
+    function handleModalBgClick(e) {
+      if (e.target === e.currentTarget) closeJoin();
+    }
+
+    // ── Form Submit ──
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      alert('Thank you! We will contact you shortly.');
+      closeJoin();
+      e.target.reset();
+    }
+  </script>
 </body>
 </html>
